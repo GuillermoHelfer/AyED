@@ -1,0 +1,39 @@
+1-	No resuelve lo pedido por el enunciado
+
+		Ejercicio pide encontrar un recorrido posible, tal que las carrozas avancen la mayor distancia posible sin 
+		superar un tope de metros X, y finalizando el itinerario en una interseccion. Sin pasar por esqNoPem.
+		
+		La ciudad se modela con un grafo, los nodos representan a las esquinas, y las aristas
+		a las calles. Cada calle tiene la longitud de la misma.
+		
+		a) Pide claramente que termine en una interseccion.
+			En el enunciado dice que los nodos representan a las esquinas y las aristas a las calles.
+			Ademas dice "el punto de inicio sera la municipalidad"
+			De esto saco dos conclusiones: todos los nodos son esquinas, COMIENZAN EN LA MUNICIPALIDAD
+			(es decir, al menos se hace en la municipalidad y ademas la municipalidad deberia estar en una esquina).
+			En las consultas practicas pregunte si siempre debo devolver en un camino el elemento inicial
+			si este existe, me dijeron que si. En las notas pide que de no haber camino posible devolver lista vacia.
+			Yo chequeo puntualmente que exista el primer nodo para comenzar a recorrer.
+			El caso de que no haya camino posible seria que no existiera el nodo inicial en el grafo.
+			
+		b) Aun asi es incorrecto porque no es lo que pediamos y tiene un resultado distinto
+			Quieren hacer un ejercicio que implique que debe moverse el carruaje pero no lo especifican
+			Piden A,B,C y D. Cumplo con A B C y el algoritmo solo falla en el caso de que no haya mas
+			adyacentes o que no sea posible acceder a ningun adyacente (tanto por metros como por esqNoPerm)
+			Mi algoritmo devuelve un camino maximo, menor a un tope, que no pasa por esqNoPerm; tendra en todo caso
+			un mal manejo de las dimensiones o del primer acceso al grafo, pero el algoritmo coincide en enorme medida
+			con lo pedido con el enunciado. Se toma como error equivalente al que no hizo ningunos A, B, C y D a yo
+			que hice A, B, C y no D. Entiendo como funciona la recursion, el caso base y las condiciones de acceso,
+			el error fue del lugar en que comienzan a agregarse los elementos a la lista, que no considero tan grave.
+			
+2- Esta mal el caso base
+			
+		(va de la mano con el error 1)
+		El caso base es el correcto, esta en la posicion equivocada a lo sumo.
+		
+
+3- Errores en cuanto al manejo de variables y v.i.
+
+		No se debe restar al volver porque uso una variable auxiliar.
+		El uso de la v.i. es claramente indebido.
+		

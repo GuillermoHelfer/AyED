@@ -1,0 +1,186 @@
+AYED GRAFOS:
+
+	Definiciones y recorridos:
+	
+		Ejemplos y terminologia:
+	
+			Un grafo es un modelo para representar relaciones entre
+			los elementos de un conjunto.
+			V = conjunto de vertices
+			E = conjunto de aristas
+			
+			Ciclo: camino por el cual se puede generar un loop.
+			Bucle: ciclo de longitud 1.
+			Subgrafo inducido: conformado a partir de un subconjunto 
+			de vértices y de TODAS las aristas incidentes a pares de 
+			vértices de dicho conjunto.
+			Grafo ponderado: cada arista tiene asociada un valor.
+		
+		
+		Conectividad:
+			
+			Bosque: grafo sin ciclos.
+			Arbol libre: bosque conexo (arbol sin raiz).
+			Arbol: arbol libre al que se le ha asignado una raiz.
+			
+			Fuertemente conexo: existe un camino desde cualquier
+			vertice a cualquier otro vertice.
+			
+			Debilmente conexo: si un grafo no dirigido no es
+			fuertemente conexo pero el grafo no dirigido es conexo.
+			
+			Componentes conexas: 
+			En un grafo dirigido, es un subgrafo conexo tal que no existe
+			otra componente conexa que lo contenga. Un grafo no
+			dirigido es no conexo si esta formado por varias
+			componentes conexas.
+			En un grafo dirigido, una componente fuertemente conexa, 
+			es el máximo subgrafo fuertemente conexo.
+			Un grafo dirigido es no fuertemente conexo si está 
+			formado por varias componentes fuertemente conexas.
+			
+		
+		Representaciones:
+			
+			Matriz de adyacencias:
+				a_ij = 1 si (i,j) pertenece a E, 0 caso contrario.
+				Costo espacial: O(|V|^2)
+				Costo de tiempo T(|V|,|E|) = O(1)
+				En grafos pesados se almacena su peso en lugar de
+				un 1 si pertenece.
+				
+			Lista de adyacencias:
+				Vector de listas de tamanio |V|.
+				Pos i -> puntero a una lista enlazada de elementos.
+				Los elementos de la lista son los vertices adyacentes
+				a i.
+				Costo espacial: O(|V|+|E|)
+				Representación apropiada para grafos con |E| menor 
+				que |V|^2
+				Desventaja: tiempo de busqueda es superior
+				Si es pesado, cada nodo de la lista de adyacencias
+				tiene almacenado el peso.
+				
+				
+		Recorridos:
+		
+			DFS: (esquema recursivo)
+				1. Marcar todos los vértices como no visitados.
+				2. Elegir vértice u como punto de partida.
+				3. Marcar u como visitado.
+				4. ∀ v adyacente a u,(u,v) Є E, si v no ha sido visitado, 
+				repetir recursivamente
+				(3) y (4) para v.
+				• Finalizar cuando se hayan visitado todos los nodos 
+				alcanzables desde u.
+				• Si desde u no fueran alcanzables todos los nodos del 
+				grafo: volver a (2), elegir un nuevo vértice de partida 
+				v no visitado, y repetir el proceso hasta que se hayan 
+				recorrido todos los vértices.
+				
+			BFS: (esquema iterativo)
+				1. Encolar el vértice origen u.
+				2. Marcar el vértice u como visitado.
+				3. Procesar la cola.
+				4. Desencolar u de la cola
+				5. ∀ adyacente a u,(u,v) Є E,
+				6. si v no ha sido visitado
+				7. encolar y visitar v
+				• Si desde u no fueran alcanzables todos los nodos del 
+				grafo: volver a(1), elegir un nuevo vértice de partida 
+				no visitado, y repetir el proceso hasta que se hayan 
+				recorrido todos los vértices.
+				
+			Bosque de expansion del DFS:
+				arcos de retroceso (cuando se puede volver a un punto
+				anterior), de avance (cuando se puede avanzar de un punto
+				a un punto mayor al siguiente del actual), de cruce
+				(cuando un nodo es inaccesible)
+			
+		
+	Aplicaciones del DFS:
+	
+		Encontrar las componentes conexas:
+			Si es conexo, un recorrido desde cualquier vertice
+			visitara a todos los vertices del grafo.
+			Si no, partiendo de un vertice tendremos UNA componente
+			conexa, para hallar el resto, repetir el recorrido desde
+			un vertice no visitado hasta que todos los vertices
+			esten visitados.
+			
+		Prueba de aciclidad:
+			Grafo no dirigido: DFS, hay ciclo si aparece algun arco
+			que no es del arbol de expansion.
+			
+		Encontrar componentes fuertemmente conexas (Kosaraju):
+			1.DFS + pila postorden
+			2.Invertir aristas
+			3.DFS popping desde la pila, cada DFS exitoso da un scc
+			
+		
+	Ordenacion Topologica:
+	
+		Version DFS + pila:
+			Se realiza un recorrido DFS, marcando cada vértice en
+			post-orden, es decir, una vez visitados todos los vértices 
+			a partir de uno dado, el marcado de los vértices en postorden 
+			se implementa colocándolos en una pila P, luego se 
+			listan empezando por el tope.
+			
+	
+	Recorridos minimos:
+	
+		Dijkstra:
+			 Dado un vértice origen s, elegir el vértice v que esté a 
+			la menor distancia de s, dentro de los vértices no procesados
+			 Marcar v como procesado
+			 Actualizar la distancia de w adyacente a v (si Dw>Dv+c(v,w))
+			
+			Para cada vértice v mantiene la siguiente información:
+			 Dv: distancia mínima desde el origen (inicialmente ∞ para
+			todos lo vértices excepto el origen con valor 0)
+			 Pv: vértice por donde paso para llegar
+			 Conocido : dato booleano que me indica si está procesado
+			(inicialmente todos en 0)
+			
+		Dijkstra modif encola vertices:
+			 Encolar el vértice origen s.
+			 Procesar la cola:
+				 Desencolar un vértice.
+				 Actualizar la distancia de los adyacentes Dw siguiendo el 
+				mismo criterio de Dijkstra.
+				 Si w no está en la cola, encolarlo.
+				
+	
+	Arbol de expansion minimo:
+		
+		El árbol de expansión mínima es un árbol formado por las aristas 
+		de G que conectan todos los vértices con un costo total mínimo.
+		
+		Prim:
+			a) se selecciona la arista (u,v) de mínimo costo que
+			cumpla: u ∈ árbol y v ∉ árbol
+			b) se agrega al árbol la arista seleccionada en a) (es
+			decir, ahora el vértice v ∈ árbol)
+			c) se repite a) y b) hasta que se hayan tomado todos los
+			vértices del grafo.
+			Para la implementación se usa una tabla (similar Dijkstra).
+			 Una vez seleccionado una arista (u,v) de costo mínimo tal 
+			que u pertenece al árbol y v no pertenece al arbol.
+			 se agrega la arista seleccionada al árbol
+			 se actualizan los costos a los adyacentes del vértice v:
+				 se compara Costow con c(v,w)
+				 se actualiza si Costow > c(v,w)
+				
+		Kruskal:
+			 Selecciona las aristas en orden creciente según su peso 
+			y las acepta si no originan un ciclo.
+			 El invariante que usa me indica que en cada punto del 
+			proceso, dos vértices pertenecen al mismo conjunto si y 
+			sólo sí están conectados.
+			 Si dos vértices u y v están en el mismo conjunto, la arista
+			(u,v) es rechazada porque al aceptarla forma un ciclo.
+			 Inicialmente cada vértice pertenece a su propio conjunto
+			 Al aceptar una arista se realiza la Unión de dos conjuntos
+			 Las aristas se organizan en una heap, para ir recuperando 
+			la de mínimo costo en cada paso

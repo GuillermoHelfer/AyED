@@ -1,0 +1,87 @@
+public class ListaDeEnterosConArreglos {
+private int tamanio;
+private Integer[] datos = new Integer[100];
+private int actual = 0;
+
+public void comenzar() {
+actual = 0;
+}
+
+public Integer proximo() {
+return datos[actual++];
+}
+
+public boolean fin() {
+return actual == tamanio;
+}
+
+public Integer elemento(int pos) {
+return datos[pos - 1];
+}
+
+public boolean agregarEn(Integer elem, int pos) {
+	if (pos < 1 || pos > tamanio + 1 || pos > datos.length || tamanio == datos.length) 
+		return false;
+	tamanio++;
+	for (int i = tamanio - 1; i >= pos; i--)
+		datos[i] = datos[i - 1];
+	datos[pos - 1] = elem;
+	return true;
+}
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+public class NodoEntero {
+private Integer dato;
+private NodoEntero siguiente;
+
+public Integer getDato() {
+	return dato;
+}
+
+public void setDato(Integer dato) {
+	this.dato = dato;
+}
+
+public NodoEntero getSiguiente() {
+	return siguiente;
+}
+
+public void setSiguiente(NodoEntero siguiente) {
+	this.siguiente = siguiente;
+}
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+public class ListaDeEnterosEnlazada {
+private NodoEntero inicio;
+private NodoEntero actual;
+private NodoEntero fin;
+private int tamanio;
+
+public void comenzar() {
+	actual = inicio;
+}
+
+public Integer proximo() {
+	Integer elto = actual.getDato();
+	actual = actual.getSiguiente();
+	return elto;
+}
+
+public boolean fin() {
+	return (actual == null);
+}
+
+public Integer elemento(int pos) {
+	if (pos < 1 || pos > this.tamanio())
+		return null;
+	NodoEntero n = this.inicio;
+	while (pos-- > 1)
+		n = n.getSiguiente();
+	return n.getDato();
+}
+
+
